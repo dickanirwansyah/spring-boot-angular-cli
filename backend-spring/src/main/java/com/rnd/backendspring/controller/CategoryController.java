@@ -59,10 +59,10 @@ public class CategoryController {
     @GetMapping(value = "category-byid/{id}")
     public ResponseEntity<CategoryBook> getCategoryBook(@PathVariable("id")String id){
         CategoryBook categoryBook = categoryService.findCategoryById(id);
-        if (categoryBook == null){
-            return ResponseEntity.badRequest().build();
-        }
-        return new ResponseEntity<>(categoryBook, HttpStatus.OK);
+
+        return categoryBook == null ?
+                ResponseEntity.badRequest().build() :
+                ResponseEntity.ok().body(categoryBook);
     }
 
     @PutMapping(value = "update-category/{id}")

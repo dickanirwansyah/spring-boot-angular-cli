@@ -69,7 +69,27 @@ public class BookController {
                 ResponseEntity.ok().body(ApiResponse.okRequestException(booksByCategoryId));
     }
 
-    
+    @GetMapping(value = "/findbook-titlebook")
+    public ResponseEntity<ApiResponse<List<Book>>> findBookByTitleBook(@RequestParam("titlebook")String titlebook){
+        List<Book> booksTitle = bookService.findByTitleBook(titlebook);
+        return booksTitle.isEmpty() ? ResponseEntity.badRequest().body(ApiResponse.badRequestException()) :
+                ResponseEntity.ok().body(ApiResponse.okRequestException(booksTitle));
+    }
+
+    @GetMapping(value = "/findbook-available/{qty}")
+    public ResponseEntity<ApiResponse<List<Book>>> findBookByAvailable(@PathVariable(value = "qty")int qty){
+        List<Book> booksAvailable = bookService.listBookByAvailable(qty);
+        return booksAvailable.isEmpty() ? ResponseEntity.badRequest().body(ApiResponse.badRequestException()) :
+                ResponseEntity.ok().body(ApiResponse.okRequestException(booksAvailable));
+    }
+
+    @GetMapping(value = "")
+    public ResponseEntity<ApiResponse<List<Book>>> listAllBook(){
+        List<Book> booksAll = bookService.listAllBook();
+        return booksAll.isEmpty() ?
+                ResponseEntity.badRequest().body(ApiResponse.badRequestException()) :
+                ResponseEntity.ok().body(ApiResponse.okRequestException(booksAll));
+    }
 
     private CategoryBook findCategoryBookById(String categoryId){
         CategoryBook categoryBook = categoryService.findCategoryById(categoryId);
