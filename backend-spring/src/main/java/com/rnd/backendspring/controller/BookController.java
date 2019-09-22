@@ -61,6 +61,16 @@ public class BookController {
         return ResponseEntity.ok().body(ApiResponse.okRequestException(booksByAuthor));
     }
 
+    @GetMapping(value = "/findbook-categoryId")
+    public ResponseEntity<ApiResponse<List<Book>>> findByCategoryId(@RequestParam("categoryId")String categoryId){
+        List<Book> booksByCategoryId = bookService.findBookByCategory(categoryId);
+        return booksByCategoryId.isEmpty() ?
+                ResponseEntity.badRequest().body(ApiResponse.badRequestException()) :
+                ResponseEntity.ok().body(ApiResponse.okRequestException(booksByCategoryId));
+    }
+
+    
+
     private CategoryBook findCategoryBookById(String categoryId){
         CategoryBook categoryBook = categoryService.findCategoryById(categoryId);
         return categoryBook;

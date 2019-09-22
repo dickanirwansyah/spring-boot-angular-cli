@@ -88,44 +88,65 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> findBookByCategory(String categoryId) {
-        Session currSession = sessionFactory.getCurrentSession();
-        Query<Book> queryBook = currSession.createQuery(
-                "From Book b WHERE b.categoryBook.id = :categoryId",
-                Book.class);
-        queryBook.setParameter("categoryId", categoryId);
-        List<Book> books = queryBook.getResultList();
+        List<Book> books = null;
+        try{
+            Session currSession = sessionFactory.getCurrentSession();
+            Query<Book> queryBook = currSession.createQuery(
+                    "From Book b WHERE b.categoryBook.id = :categoryId",
+                    Book.class);
+            queryBook.setParameter("categoryId", categoryId);
+            books = queryBook.getResultList();
+        }catch (NoResultException e){
+            e.getLocalizedMessage();
+        }
         return books;
     }
 
     @Override
     public List<Book> findByTitleBook(String titleBook) {
-        Session currSession = sessionFactory.getCurrentSession();
-        Query<Book> queryBook = currSession.createQuery(
-                "FROM Book b WHERE b.titleBook LIKE CONCAT('%',:titleBook,'%')",
-                Book.class);
-        queryBook.setParameter("titleBook", titleBook);
-        List<Book> books = queryBook.getResultList();
+        List<Book> books = null;
+        try{
+            Session currSession = sessionFactory.getCurrentSession();
+            Query<Book> queryBook = currSession.createQuery(
+                    "FROM Book b WHERE b.titleBook LIKE CONCAT('%',:titleBook,'%')",
+                    Book.class);
+            queryBook.setParameter("titleBook", titleBook);
+            books = queryBook.getResultList();
+        }catch (NoResultException e){
+            e.getLocalizedMessage();
+        }
         return books;
     }
 
     @Override
     public List<Book> listBookByAvailable(int availableBook) {
-        Session currSession = sessionFactory.getCurrentSession();
-        Query<Book> queryBook = currSession
-                .createQuery("FROM Book b WHERE b.availableBook=:availableBook",
-                        Book.class);
-        queryBook.setParameter("availableBook", availableBook);
-        List<Book> books = queryBook.getResultList();
+
+        List<Book> books = null;
+        try{
+            Session currSession = sessionFactory.getCurrentSession();
+            Query<Book> queryBook = currSession
+                    .createQuery("FROM Book b WHERE b.availableBook=:availableBook",
+                            Book.class);
+            queryBook.setParameter("availableBook", availableBook);
+            books = queryBook.getResultList();
+        }catch (NoResultException e){
+            e.getLocalizedMessage();
+        }
         return books;
     }
 
     @Override
     public List<Book> listAllBook() {
-        Session currSession = sessionFactory.getCurrentSession();
-        Query<Book> queryBook = currSession
-                .createQuery("FROM Book b ORDER BY b.titleBook ASC",
-                        Book.class);
-        List<Book> books = queryBook.getResultList();
+        List<Book> books = null;
+        try{
+            Session currSession = sessionFactory.getCurrentSession();
+            Query<Book> queryBook = currSession
+                    .createQuery("FROM Book b ORDER BY b.titleBook ASC",
+                            Book.class);
+            books = queryBook.getResultList();
+        }catch (NoResultException e){
+            e.getLocalizedMessage();
+        }
         return books;
     }
 }
